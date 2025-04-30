@@ -15,6 +15,7 @@ dependencies:
   flutter_bloc:
   hydrated_bloc:
   path_provider:
+  firebase_core: ^3.13.0
 
 dev_dependencies:
   flutter_test:
