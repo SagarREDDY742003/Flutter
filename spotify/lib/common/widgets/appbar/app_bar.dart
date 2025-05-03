@@ -3,8 +3,10 @@ import 'package:spotify/common/helpers/is_dark_mode.dart';
 
 class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
+  final bool hideBack;
   const BasicAppBar({
     this.title,
+    this.hideBack=false,
     super.key
   });
 
@@ -15,7 +17,7 @@ class BasicAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       title: title ?? const Text(''),
       centerTitle: true,
-      leading: IconButton(
+      leading: hideBack ? null : IconButton(
         onPressed: () {
           Navigator.pop(context);
         },

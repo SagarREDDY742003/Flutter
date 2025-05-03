@@ -3,7 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify/common/widgets/appbar/app_bar.dart';
 import 'package:spotify/common/widgets/button/basic_app_button.dart';
 import 'package:spotify/core/configs/assets/app_vectors.dart';
+import 'package:spotify/data/models/auth/signin_user_req.dart';
+import 'package:spotify/domain/usecases/auth/signin.dart';
 import 'package:spotify/presentation/auth/pages/signup.dart';
+import 'package:spotify/presentation/home/pages/home.dart';
+import 'package:spotify/service_locator.dart';
 
 class SigninPage extends StatelessWidget {
   SigninPage({super.key});
@@ -34,7 +38,30 @@ class SigninPage extends StatelessWidget {
             _passwordField(context),
             const SizedBox(height: 20,),
             BasicAppButton(
-              onPressed: (){}, 
+              onPressed: () async {
+                var result = await sl<SigninUseCase>().call(
+                  params: SigninUserReq(
+                    email: _email.text.toString(),
+                    password: _password.text.toString(),
+                  )
+                );
+                result.fold(
+                  (l) {
+                    var snackBar = SnackBar(content: Text(l),behavior: SnackBarBehavior.floating,);
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                  (r) {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const HomePage(),
+                      ),
+                      (route) => false,
+                    );
+                  },
+                );
+                
+              }, 
               title: 'Sign In'
             ),
           ],
@@ -55,7 +82,7 @@ class SigninPage extends StatelessWidget {
     return TextField(
       controller: _email,
       decoration: const InputDecoration(
-        hintText: 'Enter User Name or Email'
+        hintText: 'Enter User Email'
       ).applyDefaults(
         Theme.of(context).inputDecorationTheme
       ),
