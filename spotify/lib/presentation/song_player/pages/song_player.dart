@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify/common/widgets/appbar/app_bar.dart';
+import 'package:spotify/common/widgets/favorite_button/favorite_button.dart';
 import 'package:spotify/domain/entities/song/song.dart';
 import 'package:spotify/presentation/song_player/bloc/song_player_cubit.dart';
 import 'package:spotify/presentation/song_player/bloc/song_player_state.dart';
@@ -97,9 +98,9 @@ class SongPlayerPage extends StatelessWidget {
               ),
           ],
         ),
-          // FavoriteButton(
-           
-          // )
+        FavoriteButton(
+          songEntity: songEntity,
+        )
       ],
     );
   }
